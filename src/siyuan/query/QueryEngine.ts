@@ -276,9 +276,17 @@ export class QueryEngine {
 
     /**
      * Escape SQL special characters
+     * Note: This is a basic implementation for LIKE patterns in SiYuan SQL
+     * For production use, consider using parameterized queries when SiYuan supports them
      */
     private escapeSQL(value: string): string {
-        return value.replace(/'/g, "''").replace(/"/g, '\\"');
+        // Escape single quotes for SQL strings
+        // Escape backslashes and percent signs for LIKE patterns
+        return value
+            .replace(/\\/g, '\\\\')  // Escape backslashes first
+            .replace(/'/g, "''")      // SQL standard escape for single quotes
+            .replace(/%/g, '\\%')     // Escape LIKE wildcards
+            .replace(/_/g, '\\_');    // Escape LIKE wildcards
     }
 
     /**

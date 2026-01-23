@@ -4,7 +4,7 @@
  */
 
 import { v4 as uuidv4 } from 'uuid';
-import { TaskData, TaskStatus, TaskPriority, PRIORITY_MAP, STATUS_SYMBOLS } from '../types/TaskData';
+import { TaskData, TaskStatus, TaskPriority, PRIORITY_MAP } from '../types/TaskData';
 
 /**
  * Signifier types supported in inline syntax
@@ -206,8 +206,8 @@ export class TaskSyntaxParser {
 
                 case SignifierType.RECUR:
                     taskData.recurrence_rule = signifier.value;
-                    // Check if it's a "when done" style recurrence
-                    if (signifier.value.includes('when done')) {
+                    // Check if it's a "when done" style recurrence (case-insensitive)
+                    if (signifier.value.toLowerCase().includes('when done')) {
                         taskData.base_on_completion = true;
                     }
                     break;
